@@ -36,7 +36,7 @@
                         <h4>{{item.content}}</h4>
                         <p>{{item.addTime}}</p>
                     </div>
-                    <div class="list_right red">
+                    <div class="list_right red " :class="[list_right ,item.score>0 ? red : green]">
                         +{{item.score}}
                     </div>
                 </li>
