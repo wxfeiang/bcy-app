@@ -36,17 +36,18 @@ axios.interceptors.response.use(response => {
    endLoading()
     return response
 }, error => {
-    // 错误提醒
-    const { status } = error.response
-    if (status == 401) {
-        //Message.error('token值无效，请重新登录')
-        Toast.fail('失败');
-        // 清除token
-       // localStorage.removeItem('eleToken')
+    // 错误提醒 
+    Toast.fail("未登录");
+    // const { status } = error.code
+    // if (status == 401) {
+    //     //Message.error('token值无效，请重新登录')
+    //     Toast.fail('token值无效，请重新登录');
+    //     // 清除token
+    //    // localStorage.removeItem('eleToken')
 
-        // 页面跳转
-      //  router.push('/login')
-    }
+    //     // 页面跳转
+    //   //  router.push('/login')
+    // }
 
     return Promise.reject(error)
 })

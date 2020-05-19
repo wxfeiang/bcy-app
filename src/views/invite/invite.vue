@@ -1,23 +1,20 @@
 <template>
-<div class="integra">
+<div class="invite">
     <!-- header -->
     <header class="mui-bar mui-bar-nav dis-tit">
         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-        <h1 class="mui-title">我的积分</h1>
+        <h1 class="mui-title">我的邀请</h1>
     </header>
-    <!-- contant -->
+  <!-- header end-->
+  <!-- contant -->
     <div class="mui-content">
-        <div class="top disflex integral">
-            <div class="integral_left">
-                <span>{{sourecs.total}}</span>
-                <br>当前积分
-            </div>
-            <div class="integral_right">
-                <span>{{sourecs.money}}</span>
-                <br>可消费积分
+        <div class="top invite">
+            <h3>2F547C2</h3>
+            <h4>我的邀请码</h4>
+            <p>已邀请   274人</p>
             
-            </div>
         </div>
+   
         <!-- 广告位置 -->
         <div class="banner">
             <a href="javaScript:;">
@@ -26,60 +23,66 @@
         </div>
         <!-- 积分列表 -->
         <div class="list_box">
-            <h3>积分收支明细</h3>
+            <h3>邀请新人记录</h3>
             <ul class="item_box">
-                <li v-for="item in  sorceList" :key="item.sorc">
-                    <div class="list_left">
-                        <h4>{{item.content}}</h4>
-                        <p>{{item.addTime}}</p>
-                    </div>
-                    <div :class="[  'list_right ',item.score>0 ? 'red' : 'green']">
-                        +{{item.score}}
+                <li>
+                    <h4>李玉华（邀请码：29272578）</h4>
+                    <div class="date">
+                    2020-10-19  12:27
                     </div>
                 </li>
-                <!-- <li>
-                    <div class="list_left">
-                        <h4>会员回购图书（订单号：29272578）</h4>
-                        <p>2020-10-19  12:27</p>
+                <li>
+                    <h4>李玉华（邀请码：29272578）</h4>
+                    <div class="date">
+                    2020-10-19  12:27
                     </div>
-                    <div class="list_right green">
-                    -75 
-                </div>
-                </li> -->
+                </li>
+                <li>
+                    <h4>李玉华（邀请码：29272578）</h4>
+                    <div class="date">
+                    2020-10-19  12:27
+                    </div>
+                </li>
+            
             </ul>
+
+
         </div>
-    </div>
-  <!-- contant  end -->
+  </div>
+
+    
+    
 </div>
+
 </template>
 
 <script>
 // @ is an alias to /src
+
+
 export default {
-  name: 'integral',
+  name: 'invite',
   components: {
     
   },
   data(){
       return {
-          sourecs: {},
           sorceList : {}
       }
 
   },
   created(){
-      this.getSorceList();
-      this. getsouce();
+      this.get()
 
   },
    methods: {
-       getSorceList(){
+       get(){
            var loginVo ={
                 "pageNum": 0,
                 "pageSize": 0,
                 "param": {}
             }
-        this.$axios
+            this.$axios
         .post("api/score/detail/list", loginVo)
         .then(res => {
             if(res.data.code ==200){
@@ -91,21 +94,6 @@ export default {
         
            
         });
-       },
-       getsouce(){
-          this.$axios
-        .get("api/score/detail/find",)
-        .then(res => {
-            if(res.data.code ==200){
-                 console.log(res)
-                 this.sourecs = res.data.obj
-
-            }
-           
-        
-           
-        });
-           
        }
    
   },
@@ -114,21 +102,38 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '../../styles/public'
-.integral
-    div
-        width: 50%
-        text-align: center
+
+.invite
+    height: rem(200px)
+    h3
         font-family: MicrosoftYaHei
+        font-size: rem(60px)
         font-weight: normal
         font-stretch: normal
+        line-height: rem(88px)
         letter-spacing: 0px
         color: #ffffff
+        text-align: center
+    h4
+        font-family: MicrosoftYaHei
         font-size: rem(24px)
-        line-height: rem(40px)
-        span
-            font-size: rem(60px)
-            line-height: rem(88px)
-            
+        font-weight: normal
+        font-stretch: normal
+        line-height: rem(60px)
+        letter-spacing: 0px
+        color: #ffffff
+        text-align: center
+    p
+        margin: 0 auto rem(20px)
+        width: rem(218px)
+        height: rem(36px)
+        background-image: linear-gradient(0deg, #ffa000 0%,  #ffd332 100%), linear-gradient(#ff4d39, #ff4d39)
+        background-blend-mode: normal, normal
+        border-radius: rem(18px)
+        text-align: center
+        font-size: rem(20px)
+        line-height: rem(36px)
+
 .banner
     background: #ffffff
     margin: 0 0 rem(28px) 0
@@ -155,10 +160,9 @@ export default {
     .item_box
         li
             display: flex
-            //justify-content: space-around
+            justify-content: space-between
             border-bottom: 1px solid #dcdcdc
-        .list_left
-            width: 70%
+            padding:  rem(20px)  0
             h4
                 font-family: MicrosoftYaHei
                 font-size: rem(26px)
@@ -167,29 +171,14 @@ export default {
                 letter-spacing: 0px
                 color: #333333
                 line-height: rem(65px)
-            p
+            .date
                 font-family: MicrosoftYaHei
-                font-size: rem(20px)
+                font-size: rem(26px)
                 font-weight: normal
                 font-stretch: normal
-                line-height: rem(46rem)
                 letter-spacing: 0px
                 color: #dfdfdf
-        .list_right
-            width: 30%
-            text-align: center
-            font-family: MicrosoftYaHei
-            font-size: rem(50px)
-            font-weight: normal
-            font-stretch: normal
-            line-height: rem(100px)
-            letter-spacing: 0px
-        .red
-            color: #ff4f2f
-        .green
-            color:#7bb62d
-
-           
+                line-height: rem(65px)
 
 
         
