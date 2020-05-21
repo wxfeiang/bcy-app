@@ -77,18 +77,35 @@ export default {
   },
    methods: {
        get(){
-           var loginVo ={
-                "pageNum": 0,
-                "pageSize": 0,
-                "param": {}
-            }
-            this.$axios
-        .post("api/score/detail/list", loginVo)
+           var  login = {
+            "device": "oppo",
+            "pass": "123456",
+            "phone": "15002694620"
+            
+            } 
+             this.$axios
+                .post("/user/api/loginPhone",login)
+                .then(res => {
+                    if(res.data.code ==200){
+                    
+                        localStorage.setItem("Token", res.data.obj.userVo.token);
+                       
+                        
+                    }
+                
+        
+           
+        });
+
+
+
+         
+        this.$axios
+        .get("/user/api/listSons?linmt="+10+"&start="+1,)
         .then(res => {
             if(res.data.code ==200){
                  console.log(res)
-                 this.sorceList = res.data.obj.list
-
+                 
             }
            
         

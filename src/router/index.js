@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import enshrine from '@/views/enshrine/enshrine'
+import down from '@/views/down/down'
+import zuji from '@/views/zuji/zuji'
 
 
 
@@ -28,7 +30,6 @@ Vue.use(VueRouter)
       path: '/enshrine',
       component: enshrine,
       redirect: '/book',
-    
       children: [
         {
           path: '/book',
@@ -45,6 +46,32 @@ Vue.use(VueRouter)
           component: () => import('@/views/enshrine/shop'),
          
         }
+      ]
+    },
+    {
+      path: '/down',
+      component: down,
+      redirect: '/down/book',
+      children: [
+        {
+          path: '/down/book',
+          component: () => import('@/views/down/book'),
+         
+        },
+       
+      ]
+    },
+    {
+      path: '/zuji',
+      component: zuji,
+      redirect: '/zuji/book',
+      children: [
+        {
+          path: '/zuji/book',
+          component: () => import('@/views/enshrine/book'),
+         
+        },
+       
       ]
     }
 
