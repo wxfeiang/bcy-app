@@ -1,43 +1,19 @@
 <template>
 <div class="enshr">
-
- 
-       
-
-      <div class="tab_show">
-            <div class="item">
+      <div class="tab_show" v-if="bookdata.length>0">
+            <div class="item" v-for="(item,index) in bookdata" :key="index">
               <div class="img_box">
-                <img src="images/banner.png" alt="">
+                <img :src="`${item.coverImg}`" alt="">
               </div>
-                <h3>建军大业</h3>
-                <h4 class="authour">我是作者</h4>
-                <p class="desc"> 已有75420人看过</p>
-            </div>
-              <div class="item">
-                <div class="img_box">
-                <img src="" alt="">
-                </div>
-                <h3>建军大业</h3>
-                <h4 class="authour">我是作者</h4>
-                <p class="desc"> 已有75420人看过</p>
-            </div>
-              <div class="item">
-                <div class="img_box">
-                <img src="" alt="">
-                </div>
-                <h3>建军大业</h3>
-                <h4 class="authour">我是作者</h4>
-                <p class="desc"> 已有75420人看过</p>
-            </div>
-            <div class="item">
-              <div class="img_box">
-              <img src="" alt="">
-              </div>
-              <h3>建军大业</h3>
-              <h4 class="authour">我是作者</h4>
-              <p class="desc"> 已有75420人看过</p>
-          </div>
+                <h3>{{item.title}}</h3>
+                <h4 class="authour">{{item.author}}</h4>
+                <p class="desc"> 已有{{item.like}}人看过</p>
+            </div> 
       </div> 
+      <div class="no_show" v-else>
+            暂无数据
+      </div> 
+
 
     
   <!-- contant  end -->
@@ -60,35 +36,32 @@ export default {
   },
   data(){
       return {
-          sorceList : {}
+          sorceList : {},
+          bookdata:[],
+          nodata: true
       }
 
   },
   created(){
-    
-
+      this.getData()
   },
    methods: {
-       get(){
-           var loginVo ={
-                "pageNum": 0,
-                "pageSize": 0,
-                "param": {}
-            }
+       getData(){
+           var params = {
+               limit: 100,
+               start: 1,
+               type: 2
+           }
             this.$axios
-        .post("api/score/detail/list", loginVo)
-        .then(res => {
-            if(res.data.code ==200){
-                 console.log(res)
-                 this.sorceList = res.data.obj.list
+                .get("/api/score/stores/listHistory",{params})
+                .then(res => {
+                    if(res.data.code == 200){
+                        this.bookdata = res.data.obj
 
-            }
-           
-        
-           
-        });
+                    }
+             });  
        }
-   
+
   },
 
 }
@@ -125,10 +98,11 @@ export default {
     .item
         margin: rem(40px) 0 0 0
         width: rem(194px)
-        height: rem(360px)
-        background: #ccc
+        // height: rem(360px)
+
         .img_box
-            border-radius: rem(10px)
+            border-radius: 12px
+            overflow: hidden
             img
                 width: rem(194px)
                 height: rem(246px)
@@ -141,6 +115,8 @@ export default {
             letter-spacing: 0px
             color: #fe3f46
             text-align: center
+            @extend .workspace
+
         .authour
             font-family: SourceHanSansSC-Regular
             font-size: rem(20px)
@@ -150,6 +126,7 @@ export default {
             letter-spacing: 0px
             color: #828386
             text-align: center
+            @extend .workspace
         .desc
             font-family: SourceHanSansSC-Regular
             font-size: rem(16px)
@@ -158,6 +135,8 @@ export default {
             line-height: rem(40px)
             letter-spacing: 0px
             color: #828386
+            text-align: center
+            @extend .workspace
 
 
 

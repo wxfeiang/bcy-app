@@ -4,7 +4,7 @@
      <!-- header -->
   <header class="mui-bar mui-bar-nav dis-tit">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">我的收藏</h1>
+    <h1 class="mui-title">我的足迹</h1>
   </header>
   <!-- header end-->
   <!-- contant -->
@@ -12,31 +12,25 @@
     <div class="tab_box">
       <!-- tab 切换 -->
       <div class="tabxs">
-
-            <router-link to="/zuji/book" class="ahref">影视</router-link>
-          
+        <router-link to="/Zbook" class="ahref">看书</router-link>
+        <router-link to="/Zting" class="ahref">听书</router-link>
+        <router-link to="/Zxuexi" class="ahref">学习</router-link>
+        <router-link to="/Zshao" class="ahref">少儿</router-link>
+        <router-link to="/Zmove" class="ahref">影视</router-link>
       </div>
         <!-- 内容 -->
             <keep-alive>
             <!-- 对路由状态的缓存 -->
                     <router-view></router-view>
             </keep-alive>
-
-  
     </div>
   </div>
   <!-- contant  end -->
-   
-
-    
-    
 </div>
 
 </template>
 
 <script>
-// @ is an alias to /src
-
 
 export default {
   name: 'enshr',
@@ -49,31 +43,22 @@ export default {
       }
 
   },
-  created(){
-      this.get()
+   created(){
+    // this.get()
+      this.getUrl()
 
   },
    methods: {
-       get(){
-           var loginVo ={
-                "pageNum": 0,
-                "pageSize": 0,
-                "param": {}
-            }
-            this.$axios
-        .post("api/score/detail/list", loginVo)
-        .then(res => {
-            if(res.data.code ==200){
-                 console.log(res)
-                 this.sorceList = res.data.obj.list
-
-            }
-           
-        
-           
-        });
-       }
-   
+       getUrl(){
+           //  过去url 传递的参数 
+            let loc = window.location.href;  
+            let n1 = loc.length;//地址的总长度
+            let n2 = loc.indexOf("=");//取得=号的位置
+            let outToken = loc.substr(n2 + 1, n1 - n2);//从=号后面的内容
+    
+            localStorage.setItem("Token", outToken);   
+           //  再调用请求   
+       },
   },
 
 }

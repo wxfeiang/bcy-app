@@ -1,19 +1,23 @@
 <template>
-<div class="down">
-      <div class="tab_show">
-             <!-- <li v-for="item in  sorceList" :key="item.sorc"> -->
-            <div class="item" v-for="(item,index) in down " :key="index">
+<div class="enshr">
+      <div class="tab_show" v-if="bookdata.length>0">
+            <div class="item" v-for="(item,index) in bookdata" :key="index">
               <div class="img_box">
-                <!-- <img :src="item.url" alt=""> -->
-                 <img src="../../assets/images/banner.png" alt="">
+                <img :src="`${item.coverImg}`" alt="">
               </div>
                 <h3>{{item.title}}</h3>
-                
-            </div>
-           
+                <h4 class="authour">{{item.author}}</h4>
+                <p class="desc"> 已有{{item.like}}人看过</p>
+            </div> 
       </div> 
- 
+      <div class="no_show" v-else>
+            暂无数据
+      </div> 
   <!-- contant  end -->
+   
+
+    
+    
 </div>
 
 </template>
@@ -23,57 +27,38 @@
 
 
 export default {
-  name: 'down',
+  name: 'enshr',
   components: {
     
   },
   data(){
       return {
-          down :[
-              {"url" :"../../assets/images/banner.png",
-              "title": "ceshi"
-              
-              },
-              {"url" :"../../assets/images/banner.png",
-              "title": "ceshi"
-              
-              },
-          
-          {"url" :"../../assets/images/banner.png",
-              "title": "ceshi"
-              
-              }
-          
-          
-          ] 
+          sorceList : {},
+          bookdata:[],
+          nodata: true
       }
 
   },
   created(){
-    
-
+      this.getData()
   },
    methods: {
-       get(){
-           var loginVo ={
-                "pageNum": 0,
-                "pageSize": 0,
-                "param": {}
-            }
+       getData(){
+           var params = {
+               limit: 100,
+               start: 1,
+               type: 1
+           }
             this.$axios
-        .post("api/score/detail/list", loginVo)
-        .then(res => {
-            if(res.data.code ==200){
-                 console.log(res)
-                 this.sorceList = res.data.obj.list
+                .get("/api/score/stores/listDownload",{params})
+                .then(res => {
+                    if(res.data.code == 200){
+                        this.bookdata = res.data.obj
 
-            }
-           
-        
-           
-        });
+                    }
+             });  
        }
-   
+
   },
 
 }
@@ -111,9 +96,10 @@ export default {
         margin: rem(40px) 0 0 0
         width: rem(194px)
         // height: rem(360px)
-        background: #ccc
+
         .img_box
-            border-radius: rem(10px)
+            border-radius: 12px
+            overflow: hidden
             img
                 width: rem(194px)
                 height: rem(246px)
@@ -126,6 +112,8 @@ export default {
             letter-spacing: 0px
             color: #fe3f46
             text-align: center
+            @extend .workspace
+
         .authour
             font-family: SourceHanSansSC-Regular
             font-size: rem(20px)
@@ -135,6 +123,7 @@ export default {
             letter-spacing: 0px
             color: #828386
             text-align: center
+            @extend .workspace
         .desc
             font-family: SourceHanSansSC-Regular
             font-size: rem(16px)
@@ -143,6 +132,8 @@ export default {
             line-height: rem(40px)
             letter-spacing: 0px
             color: #828386
+            text-align: center
+            @extend .workspace
 
 
 

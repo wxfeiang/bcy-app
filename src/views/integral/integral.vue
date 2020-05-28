@@ -37,15 +37,7 @@
                         +{{item.score}}
                     </div>
                 </li>
-                <!-- <li>
-                    <div class="list_left">
-                        <h4>会员回购图书（订单号：29272578）</h4>
-                        <p>2020-10-19  12:27</p>
-                    </div>
-                    <div class="list_right green">
-                    -75 
-                </div>
-                </li> -->
+                
             </ul>
         </div>
     </div>
@@ -68,11 +60,25 @@ export default {
 
   },
   created(){
-      this.getSorceList();
-      this. getsouce();
+     
+      this.getUrl()
+
+      
 
   },
    methods: {
+        getUrl(){
+           //  过去url 传递的参数 
+            let loc = window.location.href;  
+            let n1 = loc.length;//地址的总长度
+            let n2 = loc.indexOf("=");//取得=号的位置
+            let outToken = loc.substr(n2 + 1, n1 - n2);//从=号后面的内容
+    
+            localStorage.setItem("Token", outToken);   
+           //  再调用请求  
+             this.getSorceList();
+             this.getsouce();
+       },
        getSorceList(){
            var loginVo ={
                 "pageNum": 0,
@@ -80,21 +86,17 @@ export default {
                 "param": {}
             }
         this.$axios
-        .post("api/score/detail/list", loginVo)
+        .post("/api/score/detail/list", loginVo)
         .then(res => {
             if(res.data.code ==200){
                  console.log(res)
                  this.sorceList = res.data.obj.list
-
             }
-           
-        
-           
         });
        },
        getsouce(){
           this.$axios
-        .get("api/score/detail/find",)
+        .get("/api/score/detail/find",)
         .then(res => {
             if(res.data.code ==200){
                  console.log(res)

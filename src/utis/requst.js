@@ -17,12 +17,12 @@ function endLoading() {    //使用Element loading-close 方法
     loading.close()
 }
 
+
 // 请求拦截  设置统一header
 axios.interceptors.request.use(config => {
     // 加载
     startLoading()
     if (localStorage.Token)
-      console.log(localStorage.Token)
         config.headers.token = localStorage.Token
         return  config
     // 测试
@@ -37,7 +37,15 @@ axios.interceptors.response.use(response => {
     return response
 }, error => {
     // 错误提醒 
-    Toast.fail("未登录");
+
+
+console.log(error)
+
+    Toast.fail(error);
+
+
+
+
     // const { status } = error.code
     // if (status == 401) {
     //     //Message.error('token值无效，请重新登录')
@@ -47,6 +55,10 @@ axios.interceptors.response.use(response => {
 
     //     // 页面跳转
     //   //  router.push('/login')
+    // }
+
+    // location /api/ {
+    //     proxy_pass http://127.0.0.1:5000;
     // }
 
     return Promise.reject(error)

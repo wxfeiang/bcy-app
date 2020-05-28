@@ -9,9 +9,9 @@
   <!-- contant -->
     <div class="mui-content">
         <div class="top invite">
-            <h3>2F547C2</h3>
+            <h3>{{obj.inviteCode}}</h3>
             <h4>我的邀请码</h4>
-            <p>已邀请   274人</p>
+            <p>已邀请{{obj.totalCounts}} 人</p>
             
         </div>
    
@@ -25,24 +25,14 @@
         <div class="list_box">
             <h3>邀请新人记录</h3>
             <ul class="item_box">
-                <li>
-                    <h4>李玉华（邀请码：29272578）</h4>
+                <li v-for="(item,index) in obj.details" :key="index">
+
+                    <h4>{{item.nickName}}（邀请码：{{obj.inviteCode}}）</h4>
                     <div class="date">
-                    2020-10-19  12:27
+                    <!-- 2020-10-19  12:27 -->
                     </div>
                 </li>
-                <li>
-                    <h4>李玉华（邀请码：29272578）</h4>
-                    <div class="date">
-                    2020-10-19  12:27
-                    </div>
-                </li>
-                <li>
-                    <h4>李玉华（邀请码：29272578）</h4>
-                    <div class="date">
-                    2020-10-19  12:27
-                    </div>
-                </li>
+               
             
             </ul>
 
@@ -50,8 +40,6 @@
         </div>
   </div>
 
-    
-    
 </div>
 
 </template>
@@ -67,49 +55,38 @@ export default {
   },
   data(){
       return {
-          sorceList : {}
+          sorceList : {},
+          obj: {},
+       
       }
 
   },
   created(){
-      this.get()
-
+    this.getUrl()
   },
    methods: {
+         getUrl(){
+           //  过去url 传递的参数 
+            let loc = window.location.href;  
+            let n1 = loc.length;//地址的总长度
+            let n2 = loc.indexOf("=");//取得=号的位置
+            let outToken = loc.substr(n2 + 1, n1 - n2);//从=号后面的内容
+    
+            localStorage.setItem("Token", outToken);   
+           //  再调用请求  
+             this.get() 
+       },
+      
+
        get(){
-           var  login = {
-            "device": "oppo",
-            "pass": "123456",
-            "phone": "15002694620"
-            
-            } 
-             this.$axios
-                .post("/user/api/loginPhone",login)
-                .then(res => {
-                    if(res.data.code ==200){
-                    
-                        localStorage.setItem("Token", res.data.obj.userVo.token);
-                       
-                        
-                    }
-                
-        
-           
-        });
-
-
-
-         
+          
         this.$axios
-        .get("/user/api/listSons?linmt="+10+"&start="+1,)
+        .get("/user/api/listSons?limit="+100+"&start="+1,)
         .then(res => {
             if(res.data.code ==200){
-                 console.log(res)
-                 
+                 console.log(res.data.obj)
+                 this.obj = res.data.obj    
             }
-           
-        
-           
         });
        }
    
@@ -174,6 +151,9 @@ export default {
         letter-spacing: 0px
         color: #1d1d1d
         border-left: 8px solid #ff4848
+        text-align: left
+        height: rem(26px)
+        line-height: rem(26px)
     .item_box
         li
             display: flex

@@ -1,36 +1,26 @@
 <template>
 <div class="enshr">
-
-     <!-- header -->
-  <header class="mui-bar mui-bar-nav dis-tit">
-    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">我的下载</h1>
-  </header>
-  <!-- header end-->
-  <!-- contant -->
-  <div class="mui-content">
-    <div class="tab_box">
-      <!-- tab 切换 -->
-      <div class="tabxs">
-        <router-link to="/Dbook" class="ahref">看书</router-link>
-        <router-link to="/Dting" class="ahref">听书</router-link>
-        <router-link to="/Dxuexi" class="ahref">学习</router-link>
-        <router-link to="/Dshao" class="ahref">少儿</router-link>
-        <router-link to="/Dmove" class="ahref">影视</router-link>
-      </div>
-        <!-- 内容 -->
-            <keep-alive>
-            <!-- 对路由状态的缓存 -->
-                    <router-view></router-view>
-            </keep-alive>
-    </div>
-  </div>
-  <!-- contant  end -->
+      <div class="tab_show" v-if="bookdata.length>0">
+            <div class="item" v-for="(item,index) in bookdata" :key="index">
+              <div class="img_box">
+                <img :src="`${item.coverImg}`" alt="">
+              </div>
+                <h3>{{item.title}}</h3>
+                <h4 class="authour">{{item.author}}</h4>
+                <p class="desc"> 已有{{item.like}}人看过</p>
+            </div> 
+      </div> 
+      <div class="no_show" v-else>
+            暂无数据
+      </div> 
+  <!-- contant  end -->  
 </div>
 
 </template>
 
 <script>
+// @ is an alias to /src
+
 
 export default {
   name: 'enshr',
@@ -39,26 +29,32 @@ export default {
   },
   data(){
       return {
-          sorceList : {}
+          sorceList : {},
+          bookdata:[],
+          nodata: true
       }
 
   },
   created(){
-    // this.get()
-      this.getUrl()
-
+      this.getData()
   },
    methods: {
-       getUrl(){
-           //  过去url 传递的参数 
-            let loc = window.location.href;  
-            let n1 = loc.length;//地址的总长度
-            let n2 = loc.indexOf("=");//取得=号的位置
-            let outToken = loc.substr(n2 + 1, n1 - n2);//从=号后面的内容
-    
-            localStorage.setItem("Token", outToken);   
-           //  再调用请求   
-       },
+       getData(){
+           var params = {
+               limit: 100,
+               start: 1,
+               type: 3
+           }
+            this.$axios
+                .get("/api/score/stores/listDownload",{params})
+                .then(res => {
+                    if(res.data.code == 200){
+                        this.bookdata = res.data.obj
+
+                    }
+             });  
+       }
+
   },
 
 }
@@ -95,10 +91,11 @@ export default {
     .item
         margin: rem(40px) 0 0 0
         width: rem(194px)
-        height: rem(360px)
-        background: #ccc
+        // height: rem(360px)
+
         .img_box
-            border-radius: rem(10px)
+            border-radius: 12px
+            overflow: hidden
             img
                 width: rem(194px)
                 height: rem(246px)
@@ -111,6 +108,8 @@ export default {
             letter-spacing: 0px
             color: #fe3f46
             text-align: center
+            @extend .workspace
+
         .authour
             font-family: SourceHanSansSC-Regular
             font-size: rem(20px)
@@ -120,6 +119,7 @@ export default {
             letter-spacing: 0px
             color: #828386
             text-align: center
+            @extend .workspace
         .desc
             font-family: SourceHanSansSC-Regular
             font-size: rem(16px)
@@ -128,6 +128,8 @@ export default {
             line-height: rem(40px)
             letter-spacing: 0px
             color: #828386
+            text-align: center
+            @extend .workspace
 
 
 
