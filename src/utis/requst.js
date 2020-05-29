@@ -42,10 +42,6 @@ axios.interceptors.response.use(response => {
 console.log(error)
 
     Toast.fail(error);
-
-
-
-
     // const { status } = error.code
     // if (status == 401) {
     //     //Message.error('token值无效，请重新登录')

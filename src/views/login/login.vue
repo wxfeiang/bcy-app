@@ -51,7 +51,7 @@ export default {
                type: 1
            }
             this.$axios
-                .get(" /score/stores/listDownload",{params})
+                .get(" /api/score/stores/listDownload",{params})
                 .then(res => {
                     if(res.data.code == 200){
                         console.log(res)

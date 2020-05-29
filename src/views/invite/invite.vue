@@ -26,7 +26,6 @@
             <h3>邀请新人记录</h3>
             <ul class="item_box">
                 <li v-for="(item,index) in obj.details" :key="index">
-
                     <h4>{{item.nickName}}（邀请码：{{obj.inviteCode}}）</h4>
                     <div class="date">
                     <!-- 2020-10-19  12:27 -->

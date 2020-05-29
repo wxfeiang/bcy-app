@@ -81,9 +81,9 @@ export default {
        },
        getSorceList(){
            var loginVo ={
-                "pageNum": 0,
-                "pageSize": 0,
-                "param": {}
+            "pageNum": 0,
+            "pageSize": 0,
+            "param": {}
             }
         this.$axios
         .post("/api/score/detail/list", loginVo)
