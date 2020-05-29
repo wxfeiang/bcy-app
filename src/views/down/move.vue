@@ -53,7 +53,7 @@ export default {
                type: 5
            }
             this.$axios
-                .get("/api/score/stores/listDownload",{params})
+                .get(" /api/score/stores/listDownload",{params})
                 .then(res => {
                     if(res.data.code == 200){
                         this.bookdata = res.data.obj
